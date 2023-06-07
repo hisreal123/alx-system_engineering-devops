@@ -1,5 +1,2 @@
 #!/bin/bash
-
-
-dir=$(pwd)
-echo $pwd
+pwd
