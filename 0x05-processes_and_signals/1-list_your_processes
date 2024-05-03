@@ -1,6 +1,4 @@
 #!/usr/bin/env bash 
 # A Bash script that displays all the running process
-
-cmd= "$(top -b -n 1)"
-echo "$cmd"
+top
 
