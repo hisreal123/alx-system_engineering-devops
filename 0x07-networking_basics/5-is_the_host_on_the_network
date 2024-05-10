@@ -1,12 +1,9 @@
 #!/usr/bin/env bash
 # Write a bash command that pings IP address as an arguement
 
-count=5
-input_address="$1"
-
-if [ $input_address ]; then
-  ping -c 5 $input_address
+if [ $1 ]; then
+  ping -c 5 "$1"
 else
-  echo "Usage: $0 <IP_ADDRESS>"
+  echo "Usage: $0 {IP_ADDRESS}"
 fi
 
