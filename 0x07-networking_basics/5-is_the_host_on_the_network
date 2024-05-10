@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+# Write a bash command that pings IP address as an arguement
+
+count=5
+input_address="$1"
+
+for ((i=0; i<count; i++)); then
+  ping -c $input_address
+done
+
