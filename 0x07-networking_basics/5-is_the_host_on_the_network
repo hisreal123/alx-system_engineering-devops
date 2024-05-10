@@ -5,10 +5,7 @@ count=5
 input_address="$1"
 
 if [ $input_address ]; then
-  for ((i=0; i<$count; i++))
-  do
-    ping -c 1 $input_address
-  done
+  ping -c 5 $input_address
 else
   echo "Usage: $0 <IP_ADDRESS>"
 fi
