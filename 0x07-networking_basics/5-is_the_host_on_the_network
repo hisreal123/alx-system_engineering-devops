@@ -4,7 +4,8 @@
 count=5
 input_address="$1"
 
-for ((i=0; i<count; i++)); then
+for i in {1..5}
+do
   ping -c $input_address
 done
 
