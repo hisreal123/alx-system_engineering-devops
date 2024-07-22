@@ -1,14 +1,15 @@
 #!/usr/bin/env bash
-# answer to configuration of firewall on ubuntu
+# configuring a ufw fthat blocks all incoming traffic with exceptions,
+# except 22(SSH), 443(HTTPS SSL) 80(HTTP)
+
 sudo apt-get -y update
 sudo apt-get -y install ufw
 
 sudo ufw disable
+sudo ufw default deny incoming
+sudo ufw default allow outgoing
+
 sudo ufw allow 22/tcp
 sudo ufq allow 80/tcp
 sudo ufw allow 443/tcp
-sudo ufw default deny incoming
-sudo ufw default allow outgoing
-sudo ufw status
-
 sudo ufw enable
