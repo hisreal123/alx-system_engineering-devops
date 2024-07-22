@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+# answer to configuration of firewall on ubuntu
+
+sudo apt update
+sudo apt install ufw
+ufw enable
+sudo ufw allow 22/tcp
+sudo ufq allow 80/tcp
+sudo ufw allow 443/tcp
+sudo ufw default deny incoming
+sudo ufw default allow outgoing
+sudo ufw status
