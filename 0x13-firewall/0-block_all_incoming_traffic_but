@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 # answer to configuration of firewall on ubuntu
-
 sudo apt update
 sudo apt install ufw
 ufw enable
