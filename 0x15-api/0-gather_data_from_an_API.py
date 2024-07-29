@@ -1,41 +1,58 @@
-#!/usr/bin/python3
-
-# Write a Python script that, using this REST API,
-# for a given employee ID, returns information about his/her TODO list progress.
-import sys
 import requests
-import json
-
-# Base url
-BASE_URL = 'https://jsonplaceholder.typicode.com/'
+import sys
 
 
-def getUser(id):
-    print(id)
+def get_employee_todo_progress(employee_id):
     try:
+        BASE_URL = "https://jsonplaceholder.typicode.com"
+
         # Fetch employee data
-        userResponse = requests.get('{}/users/{}'.format(BASE_URL, id)).json()
-        todoResponse = requests.get('{}/users/{}/todos'.format(BASE_URL, id)).json()
+        user_url = f"{BASE_URL}/users/{employee_id}"
+        user_response = requests.get(user_url)
+        user_data = user_response.json()
+
+        # Check if user exists
+        if not user_data:
+            print(f"No user found with ID {employee_id}")
+            return
+
+        # Fetch employee's TODO list
+        todos_url = f"{BASE_URL}/users/{employee_id}/todos"
+        todos_response = requests.get(todos_url)
+        todos_data = todos_response.json()
 
         # Extract employee name
-        employee_name = userResponse['name']
+        employee_name = user_data['name']
 
-        # completed task and total tasks
-        completed_tasks = [todo for todo in todoResponse if todo['completed']]
-        total_tasks = userResponse
+        # Count completed and total tasks
+        completed_tasks = [todo for todo in todos_data if todo['completed']]
+        total_tasks = todos_data
 
-        num_of_done_task = len(completed_tasks)
-        total_num_of_tasks = len(total_tasks)
+        number_of_done_tasks = len(completed_tasks)
+        total_number_of_tasks = len(total_tasks)
 
         # Display the TODO list progress
-        print(f"Employee {employee_name} is done with tasks({num_of_done_task}/{total_num_of_tasks}):")
+        print(f"Employee {employee_name} is done with tasks({number_of_done_tasks}/{total_number_of_tasks}):")
         for task in completed_tasks:
             print(f"\t {task['title']}")
 
-        # print(todoResponse)
-    except Exception as err:
-        print(str(err))
+        # Additional condition: Print todos with ID <= 20 and "oshi"
+        print("\nAdditional TODOs (ID <= 20):")
+        for todo in todos_data:
+            if todo['id'] <= 20:
+                print(todo)
+            print("oshi")
+
+    except Exception as e:
+        print(f"Error: {e}")
 
 
-if __name__ == '__main__':
-    getUser(int(sys.argv[1]))
+if __name__ == "__main__":
+    if len(sys.argv) != 2:
+        print("Usage: python script.py <employee_id>")
+    else:
+        try:
+            employee_id = int(sys.argv[1])
+            get_employee_todo_progress(employee_id)
+        except ValueError:
+            print("Employee ID must be an integer.")
