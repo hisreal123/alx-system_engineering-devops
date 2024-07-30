@@ -10,27 +10,17 @@ import json
 BASE_URL = 'https://jsonplaceholder.typicode.com/'
 
 
-def getUser(id):
-    print(id)
+def getUser(employee_id):
+
     try:
         # Fetch employee data
-        userResponse = requests.get('{}/users/{}'.format(BASE_URL, id)).json()
-        todoResponse = requests.get('{}/users/{}/todos'.format(BASE_URL, id)).json()
+        userResponse = requests.get(BASE_URL + "users/{}".format(employee_id)).json()
+        todoResponse = requests.get(BASE_URL + "todos", params={"userId": sys.argv[1]}).json()
 
-        # Extract employee name
-        employee_name = userResponse['name']
-
-        # completed task and total tasks
-        completed_tasks = [todo for todo in todoResponse if todo['completed']]
-        total_tasks = userResponse
-
-        num_of_done_task = len(completed_tasks)
-        total_num_of_tasks = len(total_tasks)
-
-        # Display the TODO list progress
-        print(f"Employee {employee_name} is done with tasks({num_of_done_task}/{total_num_of_tasks}):")
-        for task in completed_tasks:
-            print(f"\t {task['title']}")
+        completed = [t.get("title") for t in todoResponse if t.get("completed") is True ]
+        print("Employee {} is done with tasks({}/{}):".format(
+            userResponse.get('name'), len(completed), len(todoResponse)))
+        [print("\t {}".format(c)) for c in completed]
 
         # print(todoResponse)
     except Exception as err:
